@@ -9,22 +9,22 @@ import flashinfer
 import time
 
 try:
-    from sparseattn.src.Xattention import Xattention_prefill
+    from elasticattn.src.Xattention import Xattention_prefill
 except:
     print("Xattention Import Fail")
 try:
-    from sparseattn.src.Minference import Minference_prefill
+    from elasticattn.src.Minference import Minference_prefill
 except:
     print("Minference Prefill Import Fail")
 try:
-    from sparseattn.src.Fullprefill import Full_prefill
+    from elasticattn.src.Fullprefill import Full_prefill
 except:
     print("Full Prefill Import Fail")
 try:
-    from sparseattn.src.Flexprefill import Flexprefill_prefill
+    from elasticattn.src.Flexprefill import Flexprefill_prefill
 except:
     print("Flex Prefill Import Fail")
-from sparseattn.src.utils import *
+from elasticattn.src.utils import *
 
 import os
 import numpy as np
@@ -986,9 +986,9 @@ class HFModel(LLM):
         self.tokenizer.padding_side = "left"
 
         config = AutoConfig.from_pretrained(model_name, trust_remote_code=True)
-        if "sparseattn" in kwargs and kwargs["sparseattn"]:
+        if "elasticattn" in kwargs and kwargs["elasticattn"]:
             logger.warning(
-                "sparseattn is enabled. Loading custom sparse attention model..."
+                "elasticattn is enabled. Loading custom sparse attention model..."
             )
             is_llama = any(
                 "llama" in arch.lower() for arch in getattr(config, "architectures", [])
@@ -1000,7 +1000,7 @@ class HFModel(LLM):
                 "phi" in arch.lower() for arch in getattr(config, "architectures", [])
             )
             if is_llama:
-                from sparseattn.training.modeling_flash_llama import (
+                from elasticattn.training.modeling_flash_llama import (
                     PawLlamaForCausalLM,
                     PawLlamaConfig,
                 )
@@ -1009,7 +1009,7 @@ class HFModel(LLM):
                 CustomConfigClass = PawLlamaConfig
                 logger.info("Detected LLaMA architecture. Using PawLlamaForCausalLM.")
             elif is_qwen:
-                from sparseattn.training.modeling_flash_qwen import (
+                from elasticattn.training.modeling_flash_qwen import (
                     PawQwen3ForCausalLM,
                     PawQwen3Config,
                 )
@@ -1018,7 +1018,7 @@ class HFModel(LLM):
                 CustomConfigClass = PawQwen3Config
                 logger.info("Detected Qwen architecture. Using PawQwen3ForCausalLM.")
             elif is_phi:
-                from sparseattn.training.modeling_flash_phi import (
+                from elasticattn.training.modeling_flash_phi import (
                     PawPhi3ForCausalLM,
                     PawPhi3Config,
                 )
@@ -1028,7 +1028,7 @@ class HFModel(LLM):
                 logger.info("Detected Phi architecture. Using PawPhi3ForCausalLM.")
             else:
                 raise ValueError(
-                    f"Unsupported architecture for sparseattn: {config.architectures}. "
+                    f"Unsupported architecture for elasticattn: {config.architectures}. "
                     "Only LLaMA and Qwen are supported."
                 )
             AutoModelForCausalLM.register(CustomConfigClass, CustomModelClass)
@@ -1083,8 +1083,8 @@ class HFModel(LLM):
             logger.warning(
                 "Note that when using DuoAttention, we use eager attention implementation for compatibility"
             )
-            from sparseattn.src.utils import sparsify_attention_heads
-            from sparseattn.src.utils import enable_duo_attention_eval
+            from elasticattn.src.utils import sparsify_attention_heads
+            from elasticattn.src.utils import enable_duo_attention_eval
 
             duoattn_path = kwargs["duoattn"]
             duoattn_sparsity = kwargs["duoattn_sparsity"]
@@ -1140,7 +1140,7 @@ class HFModel(LLM):
             if "llama" in model_name.lower():
                 import types
                 import functools
-                from sparseattn.src.utils import llama_causal_model_forward
+                from elasticattn.src.utils import llama_causal_model_forward
 
                 # multiple gpus inference using Accelerate
                 if isinstance(self.model.forward, functools.partial):
@@ -1151,7 +1151,7 @@ class HFModel(LLM):
                     self.model.forward = types.MethodType(
                         llama_causal_model_forward, self.model
                     )
-                from sparseattn.src.utils import llama_mlp_forward
+                from elasticattn.src.utils import llama_mlp_forward
                 from transformers.models.llama.modeling_llama import (
                     LlamaMLP,
                 )
@@ -1617,8 +1617,8 @@ def load_LLM(args):
         if args.rope_theta is not None:
             kwargs["rope_theta"] = args.rope_theta
         print(f"=========args=========={args}")
-        if args.sparseattn is not None:
-            kwargs["sparseattn"] = args.sparseattn
+        if args.elasticattn is not None:
+            kwargs["elasticattn"] = args.elasticattn
             kwargs["duoattn_chunk_prefilling"] = args.duoattn_chunk_prefilling
 
         if args.duoattn is not None:

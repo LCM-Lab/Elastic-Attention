@@ -87,7 +87,7 @@ ds = MsDataset.load('LCM_group/llama_mix_sft_64K6', subset_name='default', split
 
 ```
 
-> **Note:** For the training demo below, we include a small cached dataset located at `sparseattn/public_data/data_cache/demo_data_qwen_packed_maxseq65536.parquet`.
+> **Note:** For the training demo below, we include a small cached dataset located at `elasticattn/public_data/data_cache/demo_data_qwen_packed_maxseq65536.parquet`.
 
 ## 🏰 Model Zoo
 
@@ -103,14 +103,14 @@ To start training with the provided demo data, utilize the included startup scri
 
 ```bash
 # Grant execution permissions
-chmod +x sparseattn/run_scripts/training.sh
+chmod +x elasticattn/run_scripts/training.sh
 
 # Run the training script
-bash sparseattn/run_scripts/training.sh
+bash elasticattn/run_scripts/training.sh
 
 ```
 
-*Configuration details (batch size, learning rate, etc.) can be modified inside `sparseattn/run_scripts/training.sh`.*
+*Configuration details (batch size, learning rate, etc.) can be modified inside `elasticattn/run_scripts/training.sh`.*
 
 ## ⚡ Quick Start (Inference)
 
@@ -133,7 +133,7 @@ def load_sparse_model(model_path):
     print(f"Detected architecture: {arch_name}")
 
     if "PawLlama" in arch_name:
-        from sparseattn.training.eval.modeling_flash_llama_moe import (
+        from elasticattn.training.eval.modeling_flash_llama_moe import (
             PawLlamaForCausalLM,
             PawLlamaConfig,
         )
@@ -141,7 +141,7 @@ def load_sparse_model(model_path):
         AutoModelForCausalLM.register(PawLlamaConfig, PawLlamaForCausalLM)
         model_cls = PawLlamaForCausalLM
     elif "PawQwen" in arch_name:
-        from sparseattn.training.eval.modeling_flash_qwen_moe import (
+        from elasticattn.training.eval.modeling_flash_qwen_moe import (
             PawQwen3ForCausalLM,
             PawQwen3Config,
         )

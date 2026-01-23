@@ -56,7 +56,7 @@ from block_sparse_attn import block_streaming_attn_func
 
 from dataclasses import dataclass
 
-from sparseattn.src.Xattention import Xattention_prefill_dim3, Xattention_prefill_dim4
+from elasticattn.src.Xattention import Xattention_prefill_dim3, Xattention_prefill_dim4
 
 logger = logging.get_logger(__name__)
 
@@ -852,7 +852,7 @@ class Qwen3Attention(nn.Module):
         self.retrieval_mode = config.retrieval_mode
 
         if self.retrieval_mode == "xattn" or self.toggle_type == "streaming":
-            from sparseattn.utils.ops.xattention_fa import xattn_flash_attn_func
+            from elasticattn.utils.ops.xattention_fa import xattn_flash_attn_func
 
             self.streaming_info_kwargs = {
                 "sink_block_num": self.sink_blocks,
@@ -896,7 +896,7 @@ class Qwen3Attention(nn.Module):
             self.topk_q_chunk = int(os.environ.get("TOPK_Q_CHUNK", 128))
             self.topk_k_chunk = int(os.environ.get("TOPK_K_CHUNK", 4096))
         elif self.toggle_type == "xattn" or self.retrieval_mode == "xattn":
-            from sparseattn.utils.ops.xattention_fa import xattn_flash_attn_func
+            from elasticattn.utils.ops.xattention_fa import xattn_flash_attn_func
 
             self.streaming_info_kwargs = {
                 "sink_block_num": self.sink_blocks,
