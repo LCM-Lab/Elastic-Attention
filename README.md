@@ -189,6 +189,7 @@ We acknowledge and reference the following open-source implementations:
 | **NSA** (Native Sparse Attention) | [XunhaoLai/native-sparse-attention-triton](https://www.google.com/search?q=https://github.com/XunhaoLai/native-sparse-attention-triton) |
 | **MoBA** | [MoonshotAI/MoBA](https://www.google.com/search?q=https://github.com/MoonshotAI/MoBA) |
 | **InfLLM-V2** | [OpenBMB/infllmv2_cuda_impl](https://www.google.com/search?q=https://github.com/OpenBMB/infllmv2_cuda_impl) |
+| **XAttention** | [mit-han-lab/x-attention](https://github.com/mit-han-lab/x-attention) |
 
 ## 📝 Citation
 
