@@ -23,7 +23,7 @@ The codebase has been strictly verified on the following high-performance comput
 ### 1. Setup Python Environment
 
 First, clone the repository and set up the basic PyTorch ecosystem.
-
+> Note: Compilation of CUDA kernels may take up to 5-10 minutes. Please ensure nvcc is in your PATH.
 ```bash
 # Clone the repository
 git clone https://github.com/LCM-Lab/Elastic-Attention.git
@@ -111,6 +111,66 @@ bash sparseattn/run_scripts/training.sh
 ```
 
 *Configuration details (batch size, learning rate, etc.) can be modified inside `sparseattn/run_scripts/training.sh`.*
+
+## ⚡ Quick Start (Inference)
+
+Here is a minimal example of how to use Elastic Attention for text generation:
+
+```python
+import torch
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
+# Assuming you wrap the model loading or use a specific import from your package
+def load_sparse_model(model_path):
+    config_path = f"{model_path}/config.json"
+    with open(config_path, "r") as f:
+        config_data = json.load(f)
+
+    arch = config_data.get("architectures", [])
+    if not arch:
+        raise ValueError("No architecture found in config.json")
+
+    arch_name = arch[0]
+    print(f"Detected architecture: {arch_name}")
+
+    if "PawLlama" in arch_name:
+        from sparseattn.training.eval.modeling_flash_llama_moe import (
+            PawLlamaForCausalLM,
+            PawLlamaConfig,
+        )
+
+        AutoModelForCausalLM.register(PawLlamaConfig, PawLlamaForCausalLM)
+        model_cls = PawLlamaForCausalLM
+    elif "PawQwen" in arch_name:
+        from sparseattn.training.eval.modeling_flash_qwen_moe import (
+            PawQwen3ForCausalLM,
+            PawQwen3Config,
+        )
+
+        AutoModelForCausalLM.register(PawQwen3Config, PawQwen3ForCausalLM)
+        model_cls = PawQwen3ForCausalLM
+    else:
+        raise ValueError(f"Unsupported architecture: {arch_name}")
+
+    model = model_cls.from_pretrained(
+        model_path,
+        torch_dtype=torch.bfloat16,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+    return model
+
+model_path = "****"
+tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+model = load_sparse_model(model_path)
+model.eval()
+
+# Generate
+input_text = "Explain quantum mechanics in one sentence."
+inputs = tokenizer(input_text, return_tensors="pt").to("cuda")
+
+outputs = model.generate(**inputs, max_new_tokens=100)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+```
 
 ## ⚖️ Evaluation
 
