@@ -105,8 +105,9 @@ To start training with the provided demo data, utilize the included startup scri
 # Grant execution permissions
 chmod +x elasticattn/run_scripts/training.sh
 
+cd elasticattn
 # Run the training script
-bash elasticattn/run_scripts/training.sh
+bash run_scripts/training.sh
 
 ```
 
