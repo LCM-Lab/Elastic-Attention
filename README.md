@@ -11,18 +11,22 @@
 
 ---
 
-## 📖 Introduction
+## 📖 Quick Scan
+
+**Elastic Attention** enables models to achieve both **strong performance** and **efficient inference** by dynamically allocating computation modes (Full Attention or Sparse Attention) to each attention head through our designed Attention Router, adapting sparsity ratios based on input characteristics.
+
+![Method Overview](figures/method_main.jpg)
+
+Elastic Attention features:
+- **High Training Efficiency:** Within only **12 hours** of training on $8 \times$ A800 GPUs for 8B-scale models.
+- **Long-sequence performance:** Matches backbone models and surpasses baseline methods *(experiments on Meta-Llama-3.1-8B-Instruct and Qwen3-series models)*.
+- **Inference efficiency:** Achieves higher sparsity and faster inference speed on partial long-context tasks.
 
 
-
-**Elastic Attention** enables models to achieve both **strong performance** and **efficient inference**. 
-
-- **High Efficiency:** Within only **12 hours** of training on $8 \times$ A800 GPUs.
-- **Proven Superiority:** Verified across 3 long-context scenarios with **Llama-3.1** and **Qwen3-series** models.
 
 ## 💻 System Environment
 
-The codebase has been strictly verified on the following high-performance computing environment:
+We recommend the following experimental environment, which can reproduce the results in the paper:
 
 | Component | Specification | Notes |
 | :--- | :--- | :--- |
@@ -39,25 +43,24 @@ The codebase has been strictly verified on the following high-performance comput
 Clone the repository and set up the basic PyTorch ecosystem.
 
 ```bash
-# Clone the repository
-git clone [https://github.com/LCM-Lab/Elastic-Attention.git](https://github.com/LCM-Lab/Elastic-Attention.git)
-cd Elastic-Attention
+# 1: Create a new Python environment
+conda create -n elastic_attn python=3.10
+conda activate elastic_attn
 
 # Install PyTorch ecosystem (CUDA 12.4)
-pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url [https://download.pytorch.org/whl/cu124](https://download.pytorch.org/whl/cu124)
-
+pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0 --index-url https://download.pytorch.org/whl/cu124
 ```
 
 ### 2. Install Dependencies
 
 This project relies on `Block-Sparse-Attention` and other libraries.
 
-> [!IMPORTANT]
+> **⚠️  IMPORTANT:**  
 > Compilation of CUDA kernels may take up to **5-10 minutes**. Please ensure `nvcc` is in your PATH.
 
 ```bash
 # 2.1 Install Block-Sparse-Attention (Custom CUDA Ops)
-git clone [https://github.com/mit-han-lab/Block-Sparse-Attention](https://github.com/mit-han-lab/Block-Sparse-Attention)
+git clone https://github.com/mit-han-lab/Block-Sparse-Attention.git
 cd Block-Sparse-Attention
 
 # Ensure CUDA_HOME matches your local path (adjust if necessary)
@@ -68,42 +71,48 @@ cd ..
 # 2.2 Install other python dependencies
 pip install -r requirements.txt
 pip install modelscope  # Required for data download
-
 ```
 
 ### 3. Install Elastic Attention
 
-Finally, install the main package in editable mode.
-
 ```bash
+# Clone the repository
+git clone https://github.com/LCM-Lab/Elastic-Attention.git.git
+cd Elastic-Attention
 pip install -e .
-
 ```
 
 ## 📚 Data Preparation
 
-We provide scripts to download the Supervised Fine-Tuning (SFT) datasets via [ModelScope](https://modelscope.cn/).
+We use [ModelScope](https://modelscope.cn) to host the datasets. The training data for different models is provided as follows:
 
-### Download SFT Datasets
+- **[Qwen Mix SFT (64K)](https://modelscope.cn/datasets/LCM_group/qwen_mix_sft_64K6)**
+- **[LLaMA Mix SFT (64K)](https://modelscope.cn/datasets/LCM_group/llama_mix_sft_64K6)**
 
-You can use the following Python snippets to download the processed data:
+### Download Datasets in Code
 
-| Dataset | Code Snippet |
-| --- | --- |
-| **Qwen Mix SFT (64K)** | `MsDataset.load('LCM_group/qwen_mix_sft_64K6', ...)` |
-| **LLaMA Mix SFT (64K)** | `MsDataset.load('LCM_group/llama_mix_sft_64K6', ...)` |
+You can use the following Python snippets to download the datasets programmatically:
 
-> [!TIP]
-> For the training demo below, we include a small cached dataset located at:
+```python
+from modelscope.msdatasets import MsDataset
+
+# Download Qwen Mix SFT (64K)
+dataset_qwen = MsDataset.load('LCM_group/qwen_mix_sft_64K6')
+
+# Download LLaMA Mix SFT (64K)
+dataset_llama = MsDataset.load('LCM_group/llama_mix_sft_64K6')
+```
+
+> **Tip:** For debugging or small-scale experiments, we provide cached dataset at:
 > `elasticattn/public_data/data_cache/demo_data_qwen_packed_maxseq65536.parquet`
 
 ## 🏰 Model Zoo
 
 Pre-trained models and checkpoints are available on ModelScope.
 
-| Model Series | Model Scale | Link |
+| Model Series | Models | Model Collection |
 | --- | --- | --- |
-| **Elastic-Attention Collection** | 4B / 8B | [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention) |
+| **Elastic-Attention Collection** | Qwen3-4B / Qwen3-8B / Llama3.1-8B-Instruct | [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention) |
 
 ## 🏃 Training
 
@@ -229,7 +238,7 @@ We acknowledge and reference the following open-source implementations:
 
 ## 📬 Contact
 
-If you have any questions, plz check out at: `zecheng.tang@foxmail.com` or `q_qtang@163.com`.
+If you have any questions, please connect us with: `zecheng.tang@foxmail.com` or `q_qtang@163.com`.
 
 
 ## 📝 Citation
@@ -245,8 +254,8 @@ If you find this project useful in your research, please consider citing:
 }
 
 ```
+
 <div align="center">
 <img src="https://avatars.githubusercontent.com/u/214446410?s=200&v=4" width="20" height="20">
 Built with ❤️ by the LCM Group
-
 </div>
