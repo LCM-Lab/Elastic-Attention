@@ -77,7 +77,7 @@ pip install modelscope  # Required for data download
 
 ```bash
 # Clone the repository
-git clone https://github.com/LCM-Lab/Elastic-Attention.git.git
+git clone https://github.com/LCM-Lab/Elastic-Attention.git
 cd Elastic-Attention
 pip install -e .
 ```
