@@ -1,16 +1,14 @@
 <div align="center">
 
-# 🚀 Elastic Attention
-
-### Test-time Adaptive Sparsity Ratios for Efficient Transformers
+# 🚀 Elastic Attention: Test-time Adaptive Sparsity Ratios for Efficient Transformers
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white)](https://arxiv.org/abs/24xx.xxxxx)
 [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
+<!-- [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.6.0-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![CUDA](https://img.shields.io/badge/CUDA-12.4-85c600.svg?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit)
+[![CUDA](https://img.shields.io/badge/CUDA-12.4-85c600.svg?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit) -->
 
 </div>
 
@@ -223,6 +221,11 @@ We acknowledge and reference the following open-source implementations:
 | **MoBA** | [MoonshotAI/MoBA](https://github.com/MoonshotAI/MoBA) |
 | **InfLLM-V2** | [OpenBMB/infllmv2_cuda_impl](https://github.com/OpenBMB/infllmv2_cuda_impl) |
 | **XAttention** | [mit-han-lab/x-attention](https://github.com/mit-han-lab/x-attention) |
+
+## 📬 Contact
+
+If you have any questions, plz check out at: `zecheng.tang@foxmail.com` or `q_qtang@163.com`.
+
 
 ## 📝 Citation
 
