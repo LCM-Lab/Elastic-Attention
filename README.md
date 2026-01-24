@@ -6,9 +6,6 @@
 [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-<!-- [![Python](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.6.0-ee4c2c.svg?logo=pytorch&logoColor=white)](https://pytorch.org/)
-[![CUDA](https://img.shields.io/badge/CUDA-12.4-85c600.svg?logo=nvidia&logoColor=white)](https://developer.nvidia.com/cuda-toolkit) -->
 
 </div>
 
@@ -129,7 +126,7 @@ bash run_scripts/training.sh
 Here is a minimal example of how to use Elastic Attention for text generation.
 
 <details>
-<summary><b>Click to expand the Inference Code</b></summary>
+<summary><b> 👇 Click to expand the Inference Code</b></summary>
 
 ```python
 import torch
@@ -137,6 +134,9 @@ import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 def load_sparse_model(model_path):
+    """
+    Dynamically loads the correct sparse architecture based on config.
+    """
     config_path = f"{model_path}/config.json"
     with open(config_path, "r") as f:
         config_data = json.load(f)
@@ -146,8 +146,9 @@ def load_sparse_model(model_path):
         raise ValueError("No architecture found in config.json")
 
     arch_name = arch[0]
-    print(f"Detected architecture: {arch_name}")
+    print(f"🚀 Detected architecture: {arch_name}")
 
+    # Register custom architectures
     if "PawLlama" in arch_name:
         from elasticattn.training.eval.modeling_flash_llama_moe import (
             PawLlamaForCausalLM, PawLlamaConfig
@@ -164,6 +165,7 @@ def load_sparse_model(model_path):
     else:
         raise ValueError(f"Unsupported architecture: {arch_name}")
 
+    # Load model
     model = model_cls.from_pretrained(
         model_path,
         torch_dtype=torch.bfloat16,
@@ -172,9 +174,11 @@ def load_sparse_model(model_path):
     )
     return model
 
-# Usage
-model_path = "****" # Replace with your checkpoint path
+# --- Execution ---
+model_path = "****" # <--- Replace with your checkpoint path
 tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
+
+print("Loading Elastic Attention Model...")
 model = load_sparse_model(model_path)
 model.eval()
 
@@ -182,8 +186,9 @@ model.eval()
 input_text = "Explain quantum mechanics in one sentence."
 inputs = tokenizer(input_text, return_tensors="pt").to("cuda")
 
+print("Generating...")
 outputs = model.generate(**inputs, max_new_tokens=100)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+print("\nOutput:\n" + tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 ```
 
@@ -240,3 +245,8 @@ If you find this project useful in your research, please consider citing:
 }
 
 ```
+<div align="center">
+<img src="https://avatars.githubusercontent.com/u/214446410?s=200&v=4" width="20" height="20">
+Built with ❤️ by the LCM Group
+
+</div>
