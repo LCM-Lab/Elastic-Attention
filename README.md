@@ -1,5 +1,13 @@
 # 🚀 Elastic Attention
 
+<div align="center">
+
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white)](https://arxiv.org/abs/24xx.xxxxx)
+[![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+</div>
+
 ## 📖 Introduction
 
 
@@ -180,6 +188,36 @@ We recommend using **LOOM-Eval** for comprehensive evaluation of long-context ca
 * **Repository:** [LCM-Lab/LOOM-Eval](https://github.com/LCM-Lab/LOOM-Eval)
 
 Please refer to the LOOM-Eval repository for detailed instructions on how to evaluate the checkpoints produced by Elastic Attention.
+
+### 1. Clone and Install
+```bash
+git clone https://github.com/LCM-Lab/LOOM-Eval.git
+cd LOOM-Eval
+pip install -e .
+```
+
+### 2. Run Evaluation
+```bash
+loomeval.run \ 
+  --model_path /path/to/model \
+  --cfg_path /benchmarks/General/RULER/configs/RULER.yaml \
+  --server transformers \
+  --acceleration elasticattn \
+  --device 0 1 2 3 4 5 6 7 \
+  --gp_num 1 \
+  --output_dir /path/to/results \
+
+```
+
+**Key Arguments**:
+- `--model_path`: (Required) HuggingFace model path or API model name
+- `--cfg_path:` (Required) Path to the benchmark configuration file
+- `--output_dir:` (Optional) Results output directory (default: auto-generated path)
+- `--device:` GPU IDs to use for open-source models (default: all available GPUs)
+- `--gp_num:` Number of GPUs allocated per task instance
+- `--server:` Backend inference framework to use for model execution
+- `--acceleration:` Acceleration framework to use for model execution
+
 
 ## 🔗 Related Implementations
 
