@@ -2,7 +2,7 @@
 
 # 🚀 Elastic Attention: Test-time Adaptive Sparsity Ratios for Efficient Transformers
 
-[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white)](https://arxiv.org/abs/24xx.xxxxx)
+[![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2601.17367)
 [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -246,13 +246,15 @@ If you have any questions, please connect us with: `zecheng.tang@foxmail.com` or
 If you find this project useful in your research, please consider citing:
 
 ```bibtex
-@misc{elastic_attention_2026,
-    title={Elastic Attention: ...},
-    author={...},
-    year={2026},
-    howpublished={\url{[https://anonymous.4open.science/r/Elastic-Attention-D370](https://anonymous.4open.science/r/Elastic-Attention-D370)}}
+@misc{tang2026elasticattentiontesttimeadaptive,
+      title={Elastic Attention: Test-time Adaptive Sparsity Ratios for Efficient Transformers}, 
+      author={Zecheng Tang and Quantong Qiu and Yi Yang and Zhiyi Hong and Haiya Xiang and Kebin Liu and Qingqing Dang and Juntao Li and Min Zhang},
+      year={2026},
+      eprint={2601.17367},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2601.17367}, 
 }
-
 ```
 
 <div align="center">
