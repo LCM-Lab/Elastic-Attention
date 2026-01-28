@@ -3,6 +3,7 @@
 # 🚀 Elastic Attention: Test-time Adaptive Sparsity Ratios for Efficient Transformers
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-b31b1b.svg?logo=arxiv&logoColor=white)](https://arxiv.org/abs/2601.17367)
+[![Hugging Face Collection](https://img.shields.io/badge/Hugging%20Face-Collection-ffd21e?logo=huggingface&logoColor=black)](https://huggingface.co/collections/LCM-Lab/elastic-attention)
 [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -112,7 +113,7 @@ Pre-trained models and checkpoints are available on ModelScope.
 
 | Model Series | Models | Model Collection |
 | --- | --- | --- |
-| **Elastic-Attention Collection** | Qwen3-4B / Qwen3-8B / Llama3.1-8B-Instruct | [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention) |
+| **Elastic-Attention Collection** | Qwen3-4B / Qwen3-8B / Llama3.1-8B-Instruct | [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-Collection-ffd21e?logo=huggingface&logoColor=black)](https://huggingface.co/collections/LCM-Lab/elastic-attention) / [![ModelScope](https://img.shields.io/badge/ModelScope-Collection-624aff.svg)](https://modelscope.cn/collections/LCM_group/Elastic-Attention) |
 
 ## 🏃 Training
 
