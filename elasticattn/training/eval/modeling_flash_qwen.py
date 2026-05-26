@@ -852,7 +852,6 @@ class Qwen3Attention(nn.Module):
         self.retrieval_mode = config.retrieval_mode
 
         if self.retrieval_mode == "xattn" or self.toggle_type == "streaming":
-            from elasticattn.utils.ops.xattention_fa import xattn_flash_attn_func
 
             self.streaming_info_kwargs = {
                 "sink_block_num": self.sink_blocks,
@@ -860,7 +859,6 @@ class Qwen3Attention(nn.Module):
             }
             # self.head_indices = self.num_heads // self.num_key_value_heads
             self.head_indices = self.num_heads
-            self.xattn_flash_attn_func = xattn_flash_attn_func
             self.granularity = int(getattr(config, "block_size", 128))
             self.xattn_params = {
                 "stride": 16,
